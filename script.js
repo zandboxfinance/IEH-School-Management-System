@@ -60,7 +60,9 @@ video.addEventListener('play', () => {
     results.forEach((result, i) => {
       const box = resizedDetections[i].detection.box
       const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
+      const timestamp = new Date().toLocaleTimeString();
       drawBox.draw(canvas)
+      drawTimestamp(canvas, box, timestamp, result);
     })
   
   }, 150)
@@ -81,3 +83,12 @@ function loadLabeledImages() {
     })
   )
 }
+
+function drawTimestamp(canvas, box, timestamp, result) {
+  if(result._label != "unknown"){
+    const ctx = canvas.getContext('2d');
+    ctx.font = '12px Arial';
+    ctx.fillStyle = 'red';
+    ctx.fillText(timestamp, box.x, box.y - 20);
+  }
+} 
